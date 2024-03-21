@@ -21,6 +21,7 @@ private slots:
     void createFile();
     void createFolder();
     void deleteItem();
+    void renameItem();
 
 private:
     Ui::MainWindow *ui;
