@@ -37,6 +37,11 @@
     </item>
    </layout>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

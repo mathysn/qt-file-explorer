@@ -18,6 +18,9 @@ public:
 
 private slots:
     void updateListView(const QModelIndex &index);
+    void createFile();
+    void createFolder();
+    void deleteItem();
 
 private:
     Ui::MainWindow *ui;
