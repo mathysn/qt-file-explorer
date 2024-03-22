@@ -120,7 +120,7 @@ void MainWindow::renameItem()
         bool ok;
         QString newName = QInputDialog::getText(this, tr("Rename Item"), tr("Enter new name:"), QLineEdit::Normal, "", &ok);
         if (ok && !newName.isEmpty()) {
-            QString newPath = itemPath.section('/', 0, -2) + "/" + newName; // Construire le nouveau chemin
+            QString newPath = itemPath.section('/', 0, -2) + "/" + newName;
             if (QFile::rename(itemPath, newPath)) {
                 updateListView(index.parent());
             } else {
@@ -140,7 +140,7 @@ void MainWindow::moveItem()
     if (sourceIndex.isValid()) {
         QString destPath = QFileDialog::getExistingDirectory(this, tr("Select Destination Folder"), QDir::homePath());
         if (!destPath.isEmpty()) {
-            QString fileName = sourcePath.section('/', -1); // Obtenez le nom du fichier ou du dossier
+            QString fileName = sourcePath.section('/', -1);
             QString destFilePath = destPath + "/" + fileName;
 
             if (QFile::exists(destFilePath)) {
@@ -148,7 +148,7 @@ void MainWindow::moveItem()
                 reply = QMessageBox::question(this, "Confirmation", "A file or folder with the same name already exists in the destination folder. Do you want to overwrite it?",
                                               QMessageBox::Yes|QMessageBox::No);
                 if (reply == QMessageBox::No) {
-                    return; // Sortie de la fonction si l'utilisateur ne veut pas écraser le fichier/dossier existant
+                    return;
                 }
             }
 

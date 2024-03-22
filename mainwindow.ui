@@ -23,8 +23,8 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-=      <property name="minimumWidth">
-          <number>200</number>
+      <property name="minimumWidth">
+          <number>300</number>
       </property>
       <property name="uniformRowHeights">
           <bool>true</bool>
