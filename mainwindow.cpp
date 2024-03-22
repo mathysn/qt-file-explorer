@@ -3,6 +3,7 @@
 #include <QFileSystemModel>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->createFolderButton, &QPushButton::clicked, this, &MainWindow::createFolder);
     connect(ui->deleteButton, &QPushButton::clicked, this, &MainWindow::deleteItem);
     connect(ui->renameButton, &QPushButton::clicked, this, &MainWindow::renameItem);
+    connect(ui->moveButton, &QPushButton::clicked, this, &MainWindow::moveItem);
 }
 
 
@@ -130,5 +132,35 @@ void MainWindow::renameItem()
     }
 }
 
+void MainWindow::moveItem()
+{
+    QModelIndex sourceIndex = ui->listView->currentIndex();
+    QString sourcePath = ui->listView->model()->data(sourceIndex, QFileSystemModel::FilePathRole).toString();
+
+    if (sourceIndex.isValid()) {
+        QString destPath = QFileDialog::getExistingDirectory(this, tr("Select Destination Folder"), QDir::homePath());
+        if (!destPath.isEmpty()) {
+            QString fileName = sourcePath.section('/', -1); // Obtenez le nom du fichier ou du dossier
+            QString destFilePath = destPath + "/" + fileName;
+
+            if (QFile::exists(destFilePath)) {
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, "Confirmation", "A file or folder with the same name already exists in the destination folder. Do you want to overwrite it?",
+                                              QMessageBox::Yes|QMessageBox::No);
+                if (reply == QMessageBox::No) {
+                    return; // Sortie de la fonction si l'utilisateur ne veut pas écraser le fichier/dossier existant
+                }
+            }
+
+            if (QFile::rename(sourcePath, destFilePath)) {
+                updateListView(sourceIndex.parent());
+            } else {
+                QMessageBox::critical(this, "Error", "Could not move item.");
+            }
+        }
+    } else {
+        QMessageBox::information(this, "Info", "No item selected.");
+    }
+}
 
 
