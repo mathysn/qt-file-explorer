@@ -17,7 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->treeView->setModel(treeModel);
     ui->treeView->setRootIndex(treeModel->index(QDir::rootPath()));
+<<<<<<< HEAD
     ui->treeView->header()->resizeSection(0, 500);
+=======
+    ui->treeView->setColumnWidth(0, 500);
+>>>>>>> 79023e5773660275e0a7ebcca89362f37103363a
 
     connect(ui->treeView, &QTreeView::activated, this, &MainWindow::updateListView);
 
