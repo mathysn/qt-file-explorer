@@ -4,6 +4,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->renameButton, &QPushButton::clicked, this, &MainWindow::renameItem);
     connect(ui->moveButton, &QPushButton::clicked, this, &MainWindow::moveItem);
     connect(ui->copyButton, &QPushButton::clicked, this, &MainWindow::copyItem);
+    connect(ui->listView, &QListView::doubleClicked, this, &MainWindow::openItem);
 }
 
 
@@ -215,6 +217,13 @@ void MainWindow::copyItem()
     }
 }
 
+void MainWindow::openItem(const QModelIndex &index)
+{
+    QString filePath = ui->listView->model()->data(index, QFileSystemModel::FilePathRole).toString();
 
-
+    QFileInfo fileInfo(filePath);
+    if (fileInfo.isFile()) {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+    }
+}
 

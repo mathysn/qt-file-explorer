@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void openItem(const QModelIndex &index);
 
 private slots:
     void updateListView(const QModelIndex &index);
