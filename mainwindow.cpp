@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->treeView->setModel(treeModel);
     ui->treeView->setRootIndex(treeModel->index(QDir::rootPath()));
-    ui->treeView->setHeaderHidden(true);
 
     connect(ui->treeView, &QTreeView::activated, this, &MainWindow::updateListView);
 
@@ -174,7 +173,7 @@ void MainWindow::copyItem()
     if (sourceIndex.isValid()) {
         QString destPath = QFileDialog::getExistingDirectory(this, tr("Select Destination Folder"), QDir::homePath());
         if (!destPath.isEmpty()) {
-            QString fileName = sourcePath.section('/', -1); // Obtenez le nom du fichier ou du dossier
+            QString fileName = sourcePath.section('/', -1);
             QString destFilePath = destPath + "/" + fileName;
 
             if (QFile::exists(destFilePath)) {
@@ -182,7 +181,7 @@ void MainWindow::copyItem()
                 reply = QMessageBox::question(this, "Confirmation", "A file or folder with the same name already exists in the destination folder. Do you want to overwrite it?",
                                               QMessageBox::Yes|QMessageBox::No);
                 if (reply == QMessageBox::No) {
-                    return; // Sortie de la fonction si l'utilisateur ne veut pas écraser le fichier/dossier existant
+                    return;
                 }
             }
 
@@ -209,7 +208,6 @@ void MainWindow::copyItem()
                 }
             }
 
-            // Mettre à jour la vue après la copie
             updateListView(sourceIndex.parent());
         }
     } else {
