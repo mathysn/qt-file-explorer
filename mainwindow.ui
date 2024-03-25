@@ -23,11 +23,11 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="minimumWidth">
-          <number>300</number>
+      <property name="dragEnabled">
+       <bool>true</bool>
       </property>
       <property name="uniformRowHeights">
-          <bool>true</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -44,18 +44,25 @@
        </widget>
       </item>
       <item>
-          <widget class="QPushButton" name="moveButton">
-              <property name="text">
-                  <string>Move</string>
-              </property>
-          </widget>
+       <widget class="QPushButton" name="copyButton">
+        <property name="text">
+         <string>Copy</string>
+        </property>
+       </widget>
       </item>
       <item>
-          <widget class="QPushButton" name="renameButton">
-              <property name="text">
-                  <string>Rename</string>
-              </property>
-          </widget>
+       <widget class="QPushButton" name="moveButton">
+        <property name="text">
+         <string>Move</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="renameButton">
+        <property name="text">
+         <string>Rename</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="createFileButton">

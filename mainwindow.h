@@ -23,6 +23,7 @@ private slots:
     void deleteItem();
     void renameItem();
     void moveItem();
+    void copyItem();
 
 private:
     Ui::MainWindow *ui;

@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->deleteButton, &QPushButton::clicked, this, &MainWindow::deleteItem);
     connect(ui->renameButton, &QPushButton::clicked, this, &MainWindow::renameItem);
     connect(ui->moveButton, &QPushButton::clicked, this, &MainWindow::moveItem);
+    connect(ui->copyButton, &QPushButton::clicked, this, &MainWindow::copyItem);
 }
 
 
@@ -162,5 +163,58 @@ void MainWindow::moveItem()
         QMessageBox::information(this, "Info", "No item selected.");
     }
 }
+
+void MainWindow::copyItem()
+{
+    QModelIndex sourceIndex = ui->listView->currentIndex();
+    QString sourcePath = ui->listView->model()->data(sourceIndex, QFileSystemModel::FilePathRole).toString();
+
+    if (sourceIndex.isValid()) {
+        QString destPath = QFileDialog::getExistingDirectory(this, tr("Select Destination Folder"), QDir::homePath());
+        if (!destPath.isEmpty()) {
+            QString fileName = sourcePath.section('/', -1); // Obtenez le nom du fichier ou du dossier
+            QString destFilePath = destPath + "/" + fileName;
+
+            if (QFile::exists(destFilePath)) {
+                QMessageBox::StandardButton reply;
+                reply = QMessageBox::question(this, "Confirmation", "A file or folder with the same name already exists in the destination folder. Do you want to overwrite it?",
+                                              QMessageBox::Yes|QMessageBox::No);
+                if (reply == QMessageBox::No) {
+                    return; // Sortie de la fonction si l'utilisateur ne veut pas écraser le fichier/dossier existant
+                }
+            }
+
+            QFileInfo fileInfo(sourcePath);
+            if (fileInfo.isDir()) {
+                QDir sourceDir(sourcePath);
+                QDir destDir(destFilePath);
+
+                if (!destDir.exists() && !destDir.mkpath(".")) {
+                    QMessageBox::critical(this, "Error", "Could not create destination directory.");
+                    return;
+                }
+
+                if (sourceDir.exists() && destDir.exists()) {
+                    if (!QFile::copy(sourcePath, destFilePath)) {
+                        QMessageBox::critical(this, "Error", "Could not copy folder.");
+                    }
+                } else {
+                    QMessageBox::critical(this, "Error", "Could not copy folder: Source or destination directory does not exist.");
+                }
+            } else {
+                if (!QFile::copy(sourcePath, destFilePath)) {
+                    QMessageBox::critical(this, "Error", "Could not copy file.");
+                }
+            }
+
+            // Mettre à jour la vue après la copie
+            updateListView(sourceIndex.parent());
+        }
+    } else {
+        QMessageBox::information(this, "Info", "No item selected.");
+    }
+}
+
+
 
 
