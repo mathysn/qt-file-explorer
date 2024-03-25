@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->treeView->setModel(treeModel);
     ui->treeView->setRootIndex(treeModel->index(QDir::rootPath()));
+    ui->treeView->header()->resizeSection(0, 500);
 
     connect(ui->treeView, &QTreeView::activated, this, &MainWindow::updateListView);
 
