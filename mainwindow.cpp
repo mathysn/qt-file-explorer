@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->treeView->setModel(treeModel);
     ui->treeView->setRootIndex(treeModel->index(QDir::rootPath()));
     ui->treeView->setColumnWidth(0, 500);
+    ui->statusLabel->setText("Current Path: " + QDir::rootPath());
 
     connect(ui->treeView, &QTreeView::activated, this, &MainWindow::updateListView);
 
@@ -43,6 +44,15 @@ void MainWindow::updateListView(const QModelIndex &index)
 
     QFileSystemModel *listModel = new QFileSystemModel(this);
     listModel->setRootPath(path);
+
+    qDebug() << "Current path:" << path;
+
+    // sensé update le path dans la status bar en bas à gauche
+    if (!path.isEmpty()) {
+        ui->statusLabel->setText("Current Path: " + path);
+    } else {
+        ui->statusLabel->setText("Current Path: ");
+    }
 
     ui->listView->setModel(listModel);
     ui->listView->setRootIndex(listModel->index(path));

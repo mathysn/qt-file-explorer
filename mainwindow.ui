@@ -96,6 +96,17 @@
     </item>
    </layout>
   </widget>
+  <!-- FIXME: status bar en question -->
+    <widget class="QStatusBar" name="statusBar">
+     <property name="sizeGripEnabled">
+      <bool>true</bool>
+     </property>
+     <widget class="QLabel" name="statusLabel">
+      <property name="text">
+       <string>Current Path: /</string>
+      </property>
+     </widget>
+    </widget>
  </widget>
  <resources/>
  <connections/>
