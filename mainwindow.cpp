@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moveButton, &QPushButton::clicked, this, &MainWindow::moveItem);
     connect(ui->copyButton, &QPushButton::clicked, this, &MainWindow::copyItem);
     connect(ui->listView, &QListView::doubleClicked, this, &MainWindow::openItem);
-    connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &MainWindow::searchTextChanged);
+    connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &MainWindow::updateTreeView);
 }
 
 
@@ -235,6 +235,18 @@ void MainWindow::searchTextChanged(const QString &text)
         listModel->setNameFilters(QStringList() << "*" + text + "*");
         listModel->setNameFilterDisables(false);
         ui->listView->setRootIndex(listModel->index(path));
+    }
+}
+
+void MainWindow::updateTreeView(const QString &text)
+{
+    QFileSystemModel *treeModel = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    if (treeModel) {
+        QString rootPath = treeModel->rootPath();
+        treeModel->setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
+        treeModel->setNameFilters(QStringList() << "*" + text + "*");
+        treeModel->setNameFilterDisables(false);
+        ui->treeView->setRootIndex(treeModel->index(rootPath));
     }
 }
 

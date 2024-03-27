@@ -26,6 +26,7 @@ private slots:
     void moveItem();
     void copyItem();
     void searchTextChanged(const QString &text);
+    void updateTreeView(const QString &text);
 
 private:
     Ui::MainWindow *ui;
