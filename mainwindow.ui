@@ -41,6 +41,16 @@
        </widget>
       </item>
       <item>
+          <widget class="QLineEdit" name="searchLineEdit">
+              <property name="placeholderText">
+                  <string>Search files...</string>
+              </property>
+              <property name="maximumWidth">
+                  <number>300</number>
+              </property>
+          </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="copyButton">
         <property name="text">
          <string>Copy</string>

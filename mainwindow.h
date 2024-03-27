@@ -25,6 +25,7 @@ private slots:
     void renameItem();
     void moveItem();
     void copyItem();
+    void searchTextChanged(const QString &text);
 
 private:
     Ui::MainWindow *ui;

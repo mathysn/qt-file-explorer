@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->moveButton, &QPushButton::clicked, this, &MainWindow::moveItem);
     connect(ui->copyButton, &QPushButton::clicked, this, &MainWindow::copyItem);
     connect(ui->listView, &QListView::doubleClicked, this, &MainWindow::openItem);
+    connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &MainWindow::searchTextChanged);
 }
 
 
@@ -223,6 +224,17 @@ void MainWindow::openItem(const QModelIndex &index)
     QFileInfo fileInfo(filePath);
     if (fileInfo.isFile()) {
         QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+    }
+}
+
+void MainWindow::searchTextChanged(const QString &text)
+{
+    QFileSystemModel *listModel = qobject_cast<QFileSystemModel*>(ui->listView->model());
+    if (listModel) {
+        QString path = listModel->rootPath();
+        listModel->setNameFilters(QStringList() << "*" + text + "*");
+        listModel->setNameFilterDisables(false);
+        ui->listView->setRootIndex(listModel->index(path));
     }
 }
 
