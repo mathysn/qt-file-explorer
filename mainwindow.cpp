@@ -47,7 +47,7 @@ void MainWindow::updateListView(const QModelIndex &index)
 
     qDebug() << "Current path:" << path;
 
-    // sensé update le path dans la status bar en bas à gauche
+    // FIXME: sensé update le path dans la status bar en bas à gauche
     if (!path.isEmpty()) {
         ui->statusLabel->setText("Current Path: " + path);
     } else {
