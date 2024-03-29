@@ -111,7 +111,8 @@ void MainWindow::deleteItem()
             if (QFile::exists(itemPath)) {
                 QFile::remove(itemPath);
             } else if (QDir(itemPath).exists()) {
-                if (QDir().rmdir(itemPath)) {
+                QDir dir(itemPath);
+                if (dir.removeRecursively()) {
                     updateListView(index.parent());
                 } else {
                     QMessageBox::critical(this, "Error", "Could not delete folder.");
@@ -124,6 +125,7 @@ void MainWindow::deleteItem()
         QMessageBox::information(this, "Info", "No item selected.");
     }
 }
+
 
 void MainWindow::renameItem()
 {
@@ -208,11 +210,11 @@ void MainWindow::copyItem()
                 }
 
                 if (sourceDir.exists() && destDir.exists()) {
-                    if (!QFile::copy(sourcePath, destFilePath)) {
-                        QMessageBox::critical(this, "Error", "Could not copy folder.");
+                    if (QFile::copy(sourcePath, destFilePath)) {
+                        QMessageBox::critical(this, "Error", "Could not copy folder: Source or destination directory does not exist.");
                     }
                 } else {
-                    QMessageBox::critical(this, "Error", "Could not copy folder: Source or destination directory does not exist.");
+                    QMessageBox::critical(this, "Error", "Could not copy folder.");
                 }
             } else {
                 if (!QFile::copy(sourcePath, destFilePath)) {
